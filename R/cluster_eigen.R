@@ -52,10 +52,7 @@
 cluster_eigen <- function(g,
                           kopt = 2,
                           tune = c("fast", "fine"),
-                          verbose = FALSE) {           # set your path
-    my_path      <- gsub("eigencluster/", "", here("dimension/R/"))
-    source_files <- list.files(my_path, "*.R$")
-    map(paste0(my_path, source_files), source)
+                          verbose = FALSE) {
     n        <- vcount(g)
     eclidean <- diag(1, n) - as.matrix(as_adjacency_matrix(g))
     mod      <- modularity_matrix(g, seq_len(length(V(g))))
@@ -66,9 +63,6 @@ cluster_eigen <- function(g,
                              method = "kmeans"))
     lambda   <- results$subspace$sigma_a
     u        <- results$subspace$u
-    # w <- eigen(mod)
-    # lambda   <- w$values
-    # u        <- w$vectors
     
     # function to calcualte modualrity
     mod_cal <- function(mem) {
@@ -159,12 +153,6 @@ cluster_eigen <- function(g,
                                               ~ mod_cal(.x$label_up))
                       ) %>%
                arrange(desc(modularity_up))
-        # if (verbose) {
-        #     message("dim_time", dim_time[[3]],
-        #             "cosine_time", cosine_time[[3]],
-        #             "mem_time", mem_time[[3]],
-        #             "tune_time", tune_time[[3]], "\n")
-        # }
     }
     return(res)
 }
