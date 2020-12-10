@@ -43,6 +43,8 @@ Suggests:
     testthat (>= 2.1.0),
     knitr,
     Seurat
+Remotes:
+  wenlanzZ/dimension
 VignetteBuilder: 
     knitr
 
